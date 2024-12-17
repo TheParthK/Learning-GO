@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unicode/utf8"
+)
 
 func main() {
 	// trying to print something
@@ -56,6 +59,12 @@ ok`
 	arraysInGo()
 
 	mapsInGO()
+
+	loopsInGo()
+
+	stringsRunesBytesInGo()
+
+	structsAndInterfacesInGo()
 
 }
 
@@ -146,9 +155,100 @@ func mapsInGO() {
 	if exists {
 		fmt.Printf("The name is %v\n", name)
 	} else {
-		fmt.Printf("Name Doesn't exist")
+		fmt.Printf("Name Doesn't exist\n")
 	}
 
 	fmt.Println(name, exists)
+
+	var myMap3 map[string]int32 = make(map[string]int32)
+
+	fmt.Println(myMap3)
+
+	var peopleDetails map[string]uint8 = map[string]uint8{"Parth": 10, "Rachit": 20}
+
+	fmt.Println(peopleDetails)
+
+	fmt.Println(peopleDetails["Akshit"])
+
+	var _, ok = peopleDetails["Parth"]
+
+	fmt.Println(ok)
+
+	// delete a value from a map, inbuilt delete function
+
+	delete(peopleDetails, "Rachit")
+
+	fmt.Println(peopleDetails)
+
+}
+
+func loopsInGo() {
+
+	var list []int32 = []int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	for i := range list {
+		fmt.Printf("%v ", i)
+	}
+
+	for i := range [5]int32{} {
+		fmt.Println(i)
+	}
+
+	// thats how u print a range lol
+
+	for i := 1; i < 10; i++ {
+		fmt.Println(i)
+	}
+
+	for i := range [5]uint8{} {
+		fmt.Println(i + 1)
+	}
+
+	// normal for loop like cpp
+
+	for i := 10; i < 20; i++ {
+		fmt.Println(i)
+	}
+
+}
+
+func stringsRunesBytesInGo() {
+	fmt.Println("STRINGS AND RUNES IN GO")
+	var myString string = "résumé"
+
+	fmt.Println(myString)
+
+	fmt.Println(len(myString)) // the len function gives the byte count not the character count so é is counted as 2 bytes bruh as it's not ascii
+
+	// %T returns the type of the variable/constant
+
+	var indexed = myString[0]
+
+	fmt.Printf("%v %T\n", indexed, indexed)
+
+	// if we iterate over the string with 2 varibales, we get the utf-8 encoding and the index (index, ascii_value)
+
+	for i, v := range myString {
+		fmt.Println(i, v)
+		// utf-8 encoding
+	}
+
+	fmt.Println(myString)
+	fmt.Printf("Printing rune count in string: %v", utf8.RuneCountInString(myString))
+
+	// string slice
+
+	var stringSlice []string = []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+
+	fmt.Println(stringSlice)
+	for _, j := range stringSlice {
+		fmt.Printf("%v", j)
+	}
+
+	// string builder, nhi padd rha maa chudaye
+
+}
+
+func structsAndInterfacesInGo() {
 
 }
