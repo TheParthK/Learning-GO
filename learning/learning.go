@@ -66,6 +66,8 @@ ok`
 
 	structsAndInterfacesInGo()
 
+	pointersInGo()
+
 }
 
 func intDivision(a int, b int) (int, int) {
@@ -249,6 +251,141 @@ func stringsRunesBytesInGo() {
 
 }
 
+// ------------------- STRUCTS IN GO -------------------
+
+type gasEngine struct {
+	mpg     uint8
+	gallons uint8
+}
+
+type electricEngine struct {
+	mpkwh uint8
+	kwh   uint8
+}
+
+// then u can also have a struct inside a struct
+
+type ownerInfo struct {
+	name   string
+	engine gasEngine
+}
+
+func (e gasEngine) milesLeft() uint8 {
+	return e.gallons * e.mpg
+
+	// method of a struct, like method of a class
+
+}
+
+func (e electricEngine) milesLeft() uint8 {
+	return e.kwh * e.mpkwh
+}
+
+type engine interface {
+	milesLeft() uint8
+}
+
+func enoughMilesLeft(e engine, miles uint8) {
+	if e.milesLeft() >= miles {
+		fmt.Println("You can make it there!")
+	} else {
+		fmt.Println("You need to fuel up")
+	}
+}
 func structsAndInterfacesInGo() {
+	fmt.Println("\n---------- STRUCTS AND INTERFACES ----------")
+	var myEngine gasEngine
+	fmt.Println(myEngine.mpg, myEngine.gallons)
+
+	var inline6 gasEngine = gasEngine{mpg: 10, gallons: 20}
+
+	fmt.Println(inline6)
+
+	// u can also just use positional arguments
+
+	var inline4 gasEngine = gasEngine{30, 50}
+
+	fmt.Println(inline4)
+
+	var parth ownerInfo = ownerInfo{name: "Parth Kalia", engine: gasEngine{mpg: 20, gallons: 60}}
+
+	var suraj ownerInfo = ownerInfo{name: "Suraj Patil"}
+
+	fmt.Println(parth.engine.mpg)
+
+	fmt.Println(suraj.engine.gallons)
+
+	// declaring an anonymous struct
+
+	var engine2 = struct {
+		mpg     uint8
+		gallons uint8
+	}{10, 30}
+
+	fmt.Println(engine2)
+
+	fmt.Println("----- METHODS IN STRUCTS -----")
+
+	var engine3 gasEngine = gasEngine{mpg: 10, gallons: 2} // line 266
+
+	fmt.Println(engine3.milesLeft())
+
+	var buggatiW16 gasEngine = gasEngine{mpg: 10, gallons: 2}
+
+	var tesla electricEngine = electricEngine{mpkwh: 10, kwh: 1}
+
+	enoughMilesLeft(buggatiW16, 10)
+	enoughMilesLeft(tesla, 20)
+
+}
+
+//  ---------- POINTERS IN GO -------------
+
+func pointersInGo() {
+
+	// for delcaring a new pointer
+
+	// var p *int32 // -> this is a int32 pointer
+
+	var p *int32 = new(int32)
+
+	// for it to point to something we need to do var p *int32 = new(int32)
+
+	var i int32
+
+	fmt.Println("The pointer p : ", p)
+	fmt.Println("The pointer p points to: ", *p)
+	fmt.Println("The value i : ", i)
+
+	// to set value to which a pointer is pointing to
+
+	*p = 10
+	fmt.Println("The pointer p points to: ", *p)
+
+	// & to get address loc of a variable
+
+	var marks int32 = 69
+
+	var pointer *int32 = &marks
+
+	fmt.Printf("Marks : %v  Memory Add : %v  Value w/ pointer : %v\n", marks, pointer, *pointer)
+
+	// changing value using the pointer
+
+	*pointer += 10
+
+	fmt.Printf("Updating value using the pointer : %v | %v", *pointer, marks)
+
+	// when u directly do var1 = var2 , it creates a copy of var1 and puts in var 2, so when u update the varibale it doesnt get changed in the other one
+
+	// this is not the same with slices, if u create the copy of a slice the same way, it doesnt really copy
+
+	// slice1  = slice 2 ; slice2[2] = 2 ; this will update slice1 as well
+
+	// pointers in functions
+
+	// old concept -> instead of passing an array in the function param, put in the pointer to the array using &array_name
+
+	// doing this doesnt waste memory anymore
 
 }
